@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bilingual Dictionary</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: white;
+    color: #1A1A1A;
+    text-align: center;
+}
+
+#quiz-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 2px solid #1A1A1A;
+    border-radius: 15px;
+}
+
+.option-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 18px;
+    border: 2px solid grey;
+    border-radius: 25px;
+    background-color: #1A1A1A;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.option-button:hover {
+    background-color: gray;
+    color: white;
+}
+
+#dictionary-content {
+    max-width: 800px;
+    margin: 20px auto;
+    text-align: left;
+}
+
+.dictionary-word {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.translation {
+    font-size: 16px;
+    color: #666;
+}
+
+.example {
+    font-size: 14px;
+    color: #999;
+}
+
+#back-btn {
+    background-color: #1A1A1A;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+#back-btn:hover {
+    background-color: gray;
+}
+
+</style>
+<body>
+
+    <!-- Home Page -->
+    <div id="home-page" style="display: block;">
+        <h1>Welcome to the Bilingual Dictionary</h1>
+        <p>Select a dictionary:</p>
+        <div id="quiz-container">
+            <button class="option-button" onclick="goToDictionary('en-to-af')">English to Afrikaans</button>
+            <button class="option-button" onclick="goToDictionary('af-to-en')">Afrikaans to English</button>
+        </div>
+    </div>
+
+    <!-- Dictionary Page -->
+    <div id="dictionary-page" style="display: none;">
+        <h1 id="dictionary-title"></h1>
+        <div id="dictionary-content"></div>
+        <button id="back-btn" class="option-button" onclick="goBack()">Go Back</button>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+    // List of dictionary words
+const dictionaryData = {
+    'en-to-af': {
+        title: 'English to Afrikaans Dictionary',
+        words: [
+            { word: "apple", translation: "appel", explanation: "A round fruit.", example: "I eat an apple every day." },
+            { word: "book", translation: "boek", explanation: "A set of written pages.", example: "She read the entire book in one day." },
+            { word: "cat", translation: "kat", explanation: "A small domesticated animal.", example: "The cat is sleeping on the sofa." },
+            { word: "dog", translation: "hond", explanation: "A domesticated carnivorous mammal.", example: "My dog loves to play in the park." },
+            { word: "eat", translation: "eet", explanation: "To put food into the mouth and chew.", example: "We eat breakfast at 7 AM." },
+            // Add more words here
+        ]
+    },
+    'af-to-en': {
+        title: 'Afrikaans to English Dictionary',
+        words: [
+            { word: "appel", translation: "apple", explanation: "A round fruit.", example: "Ek eet elke dag 'n appel." },
+            { word: "boek", translation: "book", explanation: "A set of written pages.", example: "Sy het die hele boek in een dag gelees." },
+            { word: "kat", translation: "cat", explanation: "A small domesticated animal.", example: "Die kat slaap op die bank." },
+            { word: "hond", translation: "dog", explanation: "A domesticated carnivorous mammal.", example: "My hond hou daarvan om in die park te speel." },
+            { word: "eet", translation: "eat", explanation: "To put food into the mouth and chew.", example: "Ons eet ontbyt om 7 uur." },
+            // Add more words here
+        ]
+    }
+};
+
+// Navigate to dictionary page
+function goToDictionary(type) {
+    document.getElementById('home-page').style.display = 'none';
+    document.getElementById('dictionary-page').style.display = 'block';
+
+    const dictionary = dictionaryData[type];
+    document.getElementById('dictionary-title').textContent = dictionary.title;
+
+    const dictionaryContent = document.getElementById('dictionary-content');
+    dictionaryContent.innerHTML = ''; // Clear previous content
+
+    dictionary.words.forEach(entry => {
+        const wordElement = document.createElement('div');
+        wordElement.classList.add('dictionary-word');
+        wordElement.innerHTML = `<strong>${entry.word}</strong> - ${entry.translation}`;
+
+        const explanationElement = document.createElement('div');
+        explanationElement.classList.add('translation');
+        explanationElement.textContent = `Explanation: ${entry.explanation}`;
+
+        const exampleElement = document.createElement('div');
+        exampleElement.classList.add('example');
+        exampleElement.textContent = `Example: ${entry.example}`;
+
+        dictionaryContent.appendChild(wordElement);
+        dictionaryContent.appendChild(explanationElement);
+        dictionaryContent.appendChild(exampleElement);
+    });
+}
+
+// Go back to home page
+function goBack() {
+    document.getElementById('dictionary-page').style.display = 'none';
+    document.getElementById('home-page').style.display = 'block';
+}
+
+    </script>
+</body>
+</html>
